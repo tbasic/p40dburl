@@ -1,6 +1,8 @@
 package com.tech.prjm09;
 
 import java.security.CodeSource;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,14 +23,17 @@ public class Prjm09replyboardApplication {
         // WAR 파일 경로 기반 프로파일 설정
         String path = getWarLocation();
         System.out.println("path : "+path);
+        Map<String, Object> props = new HashMap<>();
+
         if (path != null && path.contains("/app/")) {
-        	System.out.println("server server~~~~~~~");
-            app.setAdditionalProfiles("server");
+            System.out.println("server server~~~~~~~");
+            props.put("spring.profiles.active", "server");
         } else {
-        	System.out.println("local local~~~~~~~");
-            app.setAdditionalProfiles("local");
+            System.out.println("local local~~~~~~~");
+            props.put("spring.profiles.active", "local");
         }
 
+        app.setDefaultProperties(props);
         app.run(args);
     }
 
